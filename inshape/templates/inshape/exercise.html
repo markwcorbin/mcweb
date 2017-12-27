@@ -1,0 +1,16 @@
+{% if exercise %}
+    <h1>{{ exercise.name }} Exercise</h1>
+    <p>
+        Description: {{ exercise.description }} <br />
+        Sets: {{ exercise.sets }} <br />
+        Reps: {{ exercise.reps }} <br />
+        {% if exercise.warmup_weight %}
+            Weight: {{ exercise.warmup_weight }} <br />
+        {% endif %}
+        {% if exercise.weight %}
+            Weight: {{ exercise.weight }} <br />
+        {% endif %}
+    </p>
+{% else %}
+    <p>Exercise not found.</p>
+{% endif %}

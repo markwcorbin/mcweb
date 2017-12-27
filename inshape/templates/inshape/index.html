@@ -1,0 +1,11 @@
+<h1>Workouts</h1>
+{% if workout_list %}
+    <ul>
+    {% for workout in workout_list %}
+        <li><a href="{% url 'workout' workout.id %}">{{ workout.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No workouts available.</p>
+{% endif %}
+

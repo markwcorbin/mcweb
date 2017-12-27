@@ -1,0 +1,22 @@
+{% if workout %}
+    <h1>{{ workout.name }} Workout</h1>
+    {% if exercises %}
+        <ul>
+            {% for exercise in exercises %}
+                <li><a href="{% url 'exercise' exercise.id %}">{{ exercise.name }}</a></li>
+                Sets: {{ exercise.sets }} <br />
+                Reps: {{ exercise.reps }} <br />
+                {% if exercise.weight %}
+                    Weight: {{ exercise.warmup_weight }} <br />
+                {% endif %}
+                {% if exercise.weight %}
+                    Weight: {{ exercise.weight }} <br />
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Exercises not available.</p>
+    {% endif %}
+{% else %}
+    <p>Workout not available.</p>
+{% endif %}
