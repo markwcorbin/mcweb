@@ -8,8 +8,7 @@ class Workout(models.Model):
         return self.name
 
 class Exercise(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, 
-                                blank=True, null=True)
+    workouts = models.ManyToManyField(Workout)
     name = models.CharField(max_length=20)
     description = models.CharField(default=" ", max_length=200)
     sets = models.IntegerField(default=1)

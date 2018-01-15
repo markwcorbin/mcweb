@@ -15,7 +15,7 @@ def index(request):
 def workout(request, workout_id):
     # Get exercises for this workout and display on page
     workout = Workout.objects.get(id=workout_id)
-    exercises = Exercise.objects.filter(workout=workout_id)
+    exercises = Exercise.objects.filter(workouts=workout_id)
     template = loader.get_template('inshape/workout.html')
     context = {
         'workout': workout,
