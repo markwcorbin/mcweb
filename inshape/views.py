@@ -2,23 +2,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import Workout, Exercise
+from .models import Routine, Exercise
 
 def index(request):
-    workout_list = Workout.objects.all()
+    routine_list = Routine.objects.all()
     template = loader.get_template('inshape/index.html')
     context = {
-        'workout_list': workout_list,
+        'routine_list': routine_list,
     }
     return HttpResponse(template.render(context, request))
 
-def workout(request, workout_id):
-    # Get exercises for this workout and display on page
-    workout = Workout.objects.get(id=workout_id)
-    exercises = Exercise.objects.filter(workouts=workout_id)
-    template = loader.get_template('inshape/workout.html')
+def routine(request, routine_id):
+    # Get exercises for this routine and display on page
+    routine = Routine.objects.get(id=routine_id)
+    exercises = Exercise.objects.filter(routine=routine_id)
+    template = loader.get_template('inshape/routine.html')
     context = {
-        'workout': workout,
+        'routine': routine,
         'exercises': exercises,
     }
     return HttpResponse(template.render(context, request))

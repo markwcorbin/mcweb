@@ -1,11 +1,30 @@
-<h1>Workouts</h1>
-{% if workout_list %}
+<style>
+    body {
+        font-family: sans-serif;
+		margin: 20px;
+    }
+    h1  {
+        color: rgb(24, 24, 121);
+        font-style: italic;
+        font-size: 200%;
+        border: 2px solid red;
+		padding: 5px;
+		width: 200px;
+    }
+    h2 {
+        color: blue;
+        font-size: 125%;
+    }
+</style>
+<h1>inShape</h1>
+<h2>Routines</h2>
+{% if routine_list %}
     <ul>
-    {% for workout in workout_list %}
-        <li><a href="{% url 'workout' workout.id %}">{{ workout.name }}</a></li>
+    {% for routine in routine_list %}
+        <li><a href="{% url 'routine' routine.id %}">{{ routine.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No workouts available.</p>
+    <p>No routines available.</p>
 {% endif %}
 

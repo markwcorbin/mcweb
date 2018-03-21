@@ -1,5 +1,5 @@
-{% if workout %}
-    <h1>{{ workout.name }} Workout</h1>
+{% if routine %}
+    <h1>{{ routine.name }} Routine</h1>
     {% if exercises %}
         <ul>
             {% for exercise in exercises %}
@@ -18,5 +18,5 @@
         <p>Exercises not available.</p>
     {% endif %}
 {% else %}
-    <p>Workout not available.</p>
+    <p>Routine not available.</p>
 {% endif %}

@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    # Workout
-    path('workout/<int:workout_id>/', views.workout, name='workout'),
+    # Routine
+    path('routine/<int:routine_id>/', views.routine, name='routine'),
     # Exercise
     path('exercise/<int:exercise_id>/', views.exercise, name='exercise'),
 ]

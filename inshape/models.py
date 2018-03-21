@@ -1,6 +1,6 @@
 from django.db import models
 
-class Workout(models.Model):
+class Routine(models.Model):
     name = models.CharField(max_length=20)
     sequence = models.IntegerField(default=0)
 
@@ -8,7 +8,7 @@ class Workout(models.Model):
         return self.name
 
 class Exercise(models.Model):
-    workouts = models.ManyToManyField(Workout)
+    routine = models.ManyToManyField(Routine)
     name = models.CharField(max_length=20)
     description = models.CharField(default=" ", max_length=200)
     sets = models.IntegerField(default=1)

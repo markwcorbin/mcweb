@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Workout, Exercise
+from .models import Routine, Exercise
 
-class WorkoutAdmin(admin.ModelAdmin):
+class RoutineAdmin(admin.ModelAdmin):
     fields = ['name', 'sequence']
 
 class ExerciseAdmin(admin.ModelAdmin):
-    fields = [ 'name', 'description', 'workouts', 'sets', 'reps', 'warmup_weight',
+    fields = [ 'name', 'description', 'routine', 'sets', 'reps', 'warmup_weight',
               'weight', 'sequence']
 
-admin.site.register(Workout, WorkoutAdmin)
+admin.site.register(Routine, RoutineAdmin)
 admin.site.register(Exercise, ExerciseAdmin)
 
