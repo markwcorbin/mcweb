@@ -17,6 +17,20 @@ class Exercise(models.Model):
     weight = models.IntegerField(blank=True, null=True)
     sequence = models.IntegerField(default=0)
 
+class Workout(models.Model):
+    workout_date = models.DateField
+    routine = models.IntegerField(default=0)
+
+class WorkoutExercise(models.Model):
+    workout = models.ManyToManyField(Workout)
+    name = models.CharField(max_length=20)
+    sets = models.IntegerField(blank=True, null=True)
+    reps = models.IntegerField(blank=True, null=True)
+    warmup_weight = models.IntegerField(blank=True, null=True)
+    weight = models.IntegerField(blank=True, null=True)
+    distance = models.IntegerField(blank=True, null=True)
+    avg_speed = models.IntegerField(blank=True, null=True)
+    
     def __str__(self):
         return self.name
 
