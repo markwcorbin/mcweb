@@ -15,7 +15,8 @@
             "env": {},
             "envFile": "${workspaceRoot}/.env",
             "args": [
-                "runserver"
+                "runserver",
+                "--noreload"
             ],
             "debugOptions": [
                 "WaitOnAbnormalExit",
