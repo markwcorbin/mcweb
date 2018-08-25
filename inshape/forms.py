@@ -16,9 +16,9 @@ class WorkoutForm(forms.Form):
 
 
 class WorkoutStrengthForm(forms.Form):
+    workout = forms.IntegerField(widget=forms.HiddenInput)
+    routine = forms.IntegerField(widget=forms.HiddenInput)
     name = forms.CharField(label='Name:')
     sets = forms.IntegerField(label='Sets:')
     reps = forms.IntegerField(label='Reps')
     weight = forms.IntegerField(label='Weight:')
-
-

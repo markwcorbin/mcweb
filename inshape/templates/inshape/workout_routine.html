@@ -1,16 +1,21 @@
 <h1>inShape</h1>
 {% if routine %}
     <h2>Workout for {{ routine.name }} Routine</h2>
+    <input type="hidden" name="routine" value={{ routine.id }} >
 {% else %}
     <p>Routine not found</p>
 {% endif %}
-{% if exercises %}
-    <ul>
-    {% for exercise in exercises %}
-        <li>{{ exercise.name }}</li>
-        <li><a href="{% url 'workout_strength' exercise.id  %}">{{ exercise.name }}</a></li>
-    {% endfor %}
-    </ul>
+
+{% if workout %}
+    {% if exercises %}
+        <ul>
+        {% for exercise in exercises %}
+            <li><a href="{% url 'workout_strength' exercise.id routine.id workout.id %}">{{ exercise.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No exercises found</p>
+    {% endif %}
 {% else %}
-    <p>No exercises found</p>
+    <p>Workout not found</p>
 {% endif %}

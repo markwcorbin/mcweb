@@ -10,8 +10,8 @@ urlpatterns = [
     path('exercise/<int:exercise_id>/', views.exercise, name='exercise'),
     # Workout
     path('workout/', views.workout, name='workout'),
-    path('workout_routine/<int:routine_id>/', views.workout_routine, name='workout_routine' ),
-    path('workout_strength/<int:exercise_id>/', views.workout_strength, name='workout_strength'),
+    path('workout_routine/<int:workout_id>/<int:routine_id>/', views.workout_routine, name='workout_routine' ),
+    path('workout_strength/<int:exercise_id>/<int:routine_id>/<int:workout_id>', views.workout_strength, name='workout_strength' ),
     path('invalid_entry/', views.invalid_entry, name='invalid_entry'),
     path('done/', views.done, name='done'),
 ]
