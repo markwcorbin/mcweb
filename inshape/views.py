@@ -3,9 +3,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
+from .forms import WorkoutBikingForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -50,7 +51,7 @@ def workout_routine(request, workout_id, routine_id):
     print(templateTest)
     return HttpResponse(template.render(context, request))
 
-def workout(request):
+def workout(request, workout_type):
     # If request is a POST, then process submitted data
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
@@ -63,18 +64,30 @@ def workout(request):
             w.notes = form.cleaned_data.get('notes')
             w.save()
             # ToDo: add workout_id to workout_routine_url
-            workout_routine_url = '/inshape/workout_routine/' \
-                + str(w.id) + '/' + str(form.cleaned_data.get('Routine'))
-            return HttpResponseRedirect(workout_routine_url)
+            # Direct URL to workout type
+            if (workout_type == 1):
+                workout_routine_url = '/inshape/workout_routine/' \
+                    + str(w.id) + '/' + str(form.cleaned_data.get('Routine'))
+                return HttpResponseRedirect(workout_routine_url)
+            elif (workout_type == 2):
+                workout_biking_url = '/inshape/workout_biking/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_biking_url)
+            else:
+                # Invalid workout type
+                # ToDo: better error reporting
+                return HttpResponseRedirect('/inshape/invalid_entry')
         else:
             # Something invalid in the form
             # ToDo: determine what field is in error
             return HttpResponseRedirect('/inshape/invalid_entry/')
     # If a GET or any other method, create a blank form/
     else:
-        form = WorkoutForm()
+        form = WorkoutForm(initial={'workout_type': workout_type})
         template = loader.get_template('inshape/workout.html')
-        context = { 'form': form }
+        context = { 'form': form,
+                    'workout_type': workout_type,
+        }
         return HttpResponse(template.render(context, request))
 #    return render(request, 'inshape/workout_name.html', {'form': form})
 
@@ -111,6 +124,41 @@ def workout_strength(request, exercise_id, routine_id, workout_id):
                     'exercise': exercise_id,
         }
         return HttpResponse(template.render(context, request))
+
+def workout_biking(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutBikingForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wb = WorkoutBiking()
+            wb.workout = workout
+            wb.name = form.cleaned_data.get('name')
+            wb.distance = form.cleaned_data.get('distance')
+            wb.duration = form.cleaned_data.get('duration')
+            wb.avg_speed = form.cleaned_data.get('avg_speed')
+            wb.time_in_zone = form.cleaned_data.get('time_in_zone')
+            wb.avg_hr = form.cleaned_data.get('avg_hr')
+            wb.max_hr = form.cleaned_data.get('max_hr')
+            wb.notes = form.cleaned_data.get('notes')
+            wb.save()
+            # Go back to home page
+            home_url = ('/inshape/')
+            return HttpResponseRedirect(home_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutBikingForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_biking.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
+
+
 
 def done(request):
     return render(request, 'inshape/done.html')

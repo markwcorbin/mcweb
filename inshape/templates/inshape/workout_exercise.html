@@ -4,6 +4,6 @@
     {% if exercise %}
         <p>Exercise {{ exercise.id }}</p>
     {% endif %}
-    {{ form }}
+    {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
