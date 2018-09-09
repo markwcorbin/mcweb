@@ -45,5 +45,5 @@ class WorkoutBiking(models.Model):
     time_in_zone = models.TimeField(blank=True, null=True)
     avg_hr = models.IntegerField(blank=True, null=True)
     max_hr = models.IntegerField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)     
+    notes = models.CharField(max_length=50, blank=True, null=True)     
 

@@ -33,4 +33,4 @@ class WorkoutBikingForm(forms.Form):
     time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone')
     avg_hr = forms.IntegerField(label='Avg Heart Rate')
     max_hr = forms.IntegerField(label='Max Heart Rate')
-    notes = forms.CharField(label='Notes') 
+    notes = forms.CharField(label='Notes', required=False )
