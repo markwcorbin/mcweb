@@ -118,10 +118,11 @@ def workout_strength(request, exercise_id, routine_id, workout_id):
 
     # If a GET or any other method, create a blank form
     else:
+        exercise = Exercise.objects.get(id=exercise_id)
         form = WorkoutStrengthForm(initial={'routine': routine_id, 'workout': workout_id})
         template = loader.get_template('inshape/workout_exercise.html')
         context = { 'form': form,
-                    'exercise': exercise_id,
+                    'exercise': exercise,
         }
         return HttpResponse(template.render(context, request))
 

@@ -2,7 +2,7 @@
 <form action="" method="post">
     {% csrf_token %}
     {% if exercise %}
-        <p>Exercise {{ exercise.id }}</p>
+        <h2>{{ exercise.name }} </h2>
     {% endif %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
