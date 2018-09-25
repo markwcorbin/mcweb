@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Routine(models.Model):
     name = models.CharField(max_length=20)
@@ -21,7 +22,7 @@ class Exercise(models.Model):
         return self.name
 
 class Workout(models.Model):
-    workout_date = models.DateTimeField
+    workout_date = models.DateTimeField(default=datetime.now())
     routine = models.IntegerField(default=0)
     notes = models.CharField(max_length=100)
 
