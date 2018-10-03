@@ -10,7 +10,7 @@ from .forms import WorkoutBikingForm
 
 def index(request):
     routine_list = Routine.objects.all()
-    workout_list = Workout.objects.all()[:5]
+    workout_list = Workout.objects.all().order_by('-workout_date')[:5]
     template = loader.get_template('inshape/index.html')
     context = {
         'routine_list': routine_list,
