@@ -1,0 +1,38 @@
+<style>
+    body {
+        font-family: sans-serif;
+		margin: 20px;
+    }
+    h1  {
+        color: rgb(24, 24, 121);
+        font-style: italic;
+        font-size: 200%;
+        border: 2px solid red;
+		padding: 5px;
+		width: 200px;
+    }
+    h2 {
+        color: blue;
+        font-size: 125%;
+    }
+</style>
+<div>
+<h1>inShape</h1>
+</div>
+<div>
+{% if workout %}
+    <h2>Climbing Session {{ workout.workout_date }} </h2>
+    <p>
+    {% if climbs %}
+        {% for climb in climbs %}
+            <li>{{ climb.route_type }} {{ climb.rating }} {{ climb.notes }}</li>
+        {% endfor %}
+    {% endif %}
+    </p>
+{% else %}
+    <p>Workout not found</p>
+{% endif %}
+</div>
+<div>
+    <a href="{% url 'workout_climb' workout.id %}"> Add a route </a>
+</div>

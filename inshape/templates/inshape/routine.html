@@ -1,5 +1,24 @@
+<style>
+    body {
+        font-family: sans-serif;
+		margin: 20px;
+    }
+    h1  {
+        color: rgb(24, 24, 121);
+        font-style: italic;
+        font-size: 200%;
+        border: 2px solid red;
+		padding: 5px;
+		width: 200px;
+    }
+    h2 {
+        color: blue;
+        font-size: 125%;
+    }
+</style>
+<h1>inShape</h1>
 {% if routine %}
-    <h1>{{ routine.name }} Routine</h1>
+    <h2>{{ routine.name }} Routine</h2>
     {% if exercises %}
         <ul>
             {% for exercise in exercises %}

@@ -34,3 +34,9 @@ class WorkoutBikingForm(forms.Form):
     avg_hr = forms.IntegerField(label='Avg Heart Rate')
     max_hr = forms.IntegerField(label='Max Heart Rate')
     notes = forms.CharField(label='Notes', required=False )
+
+class WorkoutClimbForm(forms.Form):
+    workout = forms.IntegerField(widget=forms.HiddenInput)
+    route_type = forms.CharField(label='Route Type:')
+    rating = forms.CharField(label='Rating:')
+    notes = forms.CharField(label='Notes:')

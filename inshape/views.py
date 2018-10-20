@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
 from .forms import WorkoutBikingForm
+from .forms import WorkoutClimbForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -75,6 +76,10 @@ def workout(request, workout_type):
                 workout_biking_url = '/inshape/workout_biking/' \
                     + str(w.id) + '/'
                 return HttpResponseRedirect(workout_biking_url)
+            elif (workout_type == 3):
+                workout_climbing_url = '/inshape/workout_climbing/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_climbing_url)
             else:
                 # Invalid workout type
                 # ToDo: better error reporting
@@ -158,6 +163,47 @@ def workout_biking(request, workout_id):
     else:
         form = WorkoutBikingForm(initial={'workout': workout_id})
         template = loader.get_template('inshape/workout_biking.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
+
+def workout_climbing(request, workout_id):
+    # Enter results of a climbing sessin
+    workout = Workout.objects.get(id=workout_id)
+    climbs = WorkoutClimb.objects.filter(workout=workout_id)
+    template = loader.get_template('inshape/workout_climbing.html')
+    context = {
+        'workout': workout,
+        'climbs': climbs,
+    }
+    templateTest = template.render(context, request)
+    print(templateTest)
+    return HttpResponse(template.render(context, request))
+
+def workout_climb(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutClimbForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wc = WorkoutClimb()
+            wc.workout = workout
+            wc.route_type = form.cleaned_data.get('route_type')
+            wc.rating = form.cleaned_data.get('rating')
+            wc.notes = form.cleaned_data.get('notes')
+            wc.save()
+            # Go back to workout climbing page
+            back_url = '/inshape/workout_climbing/' + str(workout.id)
+            return HttpResponseRedirect(back_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutClimbForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_climb.html')
         context = { 'form': form }
         return HttpResponse(template.render(context, request))
 
