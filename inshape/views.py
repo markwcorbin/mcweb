@@ -11,7 +11,7 @@ from .forms import WorkoutClimbForm
 
 def index(request):
     routine_list = Routine.objects.all()
-    workout_list = Workout.objects.all().order_by('-workout_date')[:5]
+    workout_list = Workout.objects.all().order_by('-workout_date')[:10]
     template = loader.get_template('inshape/index.html')
     context = {
         'routine_list': routine_list,
@@ -64,7 +64,7 @@ def workout(request, workout_type):
             w = Workout()
             w.workout_date = form.cleaned_data.get('workout_date')
             w.routine = form.cleaned_data.get('Routine')
-            w.notes = form.cleaned_data.get('notes')
+            w.description = form.cleaned_data.get('description')
             w.save()
             # ToDo: add workout_id to workout_routine_url
             # Direct URL to workout type

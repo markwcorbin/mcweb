@@ -13,7 +13,7 @@ class WorkoutForm(forms.Form):
 
     workout_type = forms.IntegerField(widget=forms.HiddenInput)
     workout_date = forms.DateTimeField()
-    notes = forms.CharField(label='Notes:', max_length=100)
+    description = forms.CharField(label='Description:', max_length=100)
 
 
 class WorkoutStrengthForm(forms.Form):
@@ -30,13 +30,13 @@ class WorkoutBikingForm(forms.Form):
     distance = forms.DecimalField(label='Distance (miles 00.0)', max_digits=4)
     duration = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Duration (hh:mm)')
     avg_speed = forms.DecimalField(label='Avg Speed (00.0)', max_digits=3)
-    time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone (hh:mm)')
-    avg_hr = forms.IntegerField(label='Avg Heart Rate')
-    max_hr = forms.IntegerField(label='Max Heart Rate')
+    time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone (hh:mm)', required=False)
+    avg_hr = forms.IntegerField(label='Avg Heart Rate', required=False)
+    max_hr = forms.IntegerField(label='Max Heart Rate', required=False)
     notes = forms.CharField(label='Notes', required=False )
 
 class WorkoutClimbForm(forms.Form):
     workout = forms.IntegerField(widget=forms.HiddenInput)
     route_type = forms.CharField(label='Route Type:')
     rating = forms.CharField(label='Rating:')
-    notes = forms.CharField(label='Notes:')
+    notes = forms.CharField(label='Notes:', required=False)

@@ -27,7 +27,7 @@
 {% if workout_list %}
     <ul>
         {% for workout in workout_list %}
-            <li>{{ workout.workout_date }} {{workout.notes }}</li>
+            <li>{{ workout.workout_date }} {{workout.description }}</li>
         {% endfor %}
     </ul>
 {% endif %}
