@@ -60,5 +60,19 @@ class WorkoutClimb(models.Model):
     def __str__(self):
         return self.notes
 
+class WorkoutRunning(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    description = models.CharField(max_length=50, blank=True, null=True)
+    distance = models.DecimalField(decimal_places=1, max_digits=4)
+    duration = models.TimeField()
+    avg_speed = models.DecimalField(decimal_places=1, max_digits=3)
+    time_in_zone = models.TimeField(blank=True, null=True)
+    avg_hr = models.IntegerField(blank=True, null=True)
+    max_hr = models.IntegerField(blank=True, null=True)
+    notes = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.description
+        
 
 

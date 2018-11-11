@@ -15,6 +15,7 @@ urlpatterns = [
     path('workout_biking/<int:workout_id>/', views.workout_biking, name='workout_biking'),
     path('workout_climbing/<int:workout_id>/', views.workout_climbing, name='workout_climbing'),
     path('workout_climb/<int:workout_id>/', views.workout_climb, name='workout_climb'),
+    path('workout_running/<int:workout_id>/', views.workout_running, name='workout_running'),
     path('invalid_entry/', views.invalid_entry, name='invalid_entry'),
     path('done/', views.done, name='done'),
 ]

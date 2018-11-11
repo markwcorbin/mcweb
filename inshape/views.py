@@ -3,11 +3,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
 from .forms import WorkoutBikingForm
 from .forms import WorkoutClimbForm
+from .forms import WorkoutRunningForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -80,6 +81,10 @@ def workout(request, workout_type):
                 workout_climbing_url = '/inshape/workout_climbing/' \
                     + str(w.id) + '/'
                 return HttpResponseRedirect(workout_climbing_url)
+            elif (workout_type == 4):
+                workout_running_url = '/inshape/workout_running/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_running_url)
             else:
                 # Invalid workout type
                 # ToDo: better error reporting
@@ -207,6 +212,38 @@ def workout_climb(request, workout_id):
         context = { 'form': form }
         return HttpResponse(template.render(context, request))
 
+def workout_running(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutRunningForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wb = WorkoutBiking()
+            wb.workout = workout
+            wb.description = form.cleaned_data.get('description')
+            wb.distance = form.cleaned_data.get('distance')
+            wb.duration = form.cleaned_data.get('duration')
+            wb.avg_speed = form.cleaned_data.get('avg_speed')
+            wb.time_in_zone = form.cleaned_data.get('time_in_zone')
+            wb.avg_hr = form.cleaned_data.get('avg_hr')
+            wb.max_hr = form.cleaned_data.get('max_hr')
+            wb.notes = form.cleaned_data.get('notes')
+            wb.save()
+            # Go back to home page
+            home_url = ('/inshape/')
+            return HttpResponseRedirect(home_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutRunningForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_running.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
 
 
 def done(request):
