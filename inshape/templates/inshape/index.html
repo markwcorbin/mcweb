@@ -28,7 +28,7 @@
 {% if workout_list %}
     <ul>
         {% for workout in workout_list %}
-            <li>{{ workout.workout_date }} {{workout.description }}</li>
+            <li><a href="{% url 'workout_content' workout.id %}"> {{ workout.workout_date }} {{workout.description }}</li>
         {% endfor %}
     </ul>
 {% endif %}

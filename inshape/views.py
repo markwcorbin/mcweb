@@ -64,6 +64,7 @@ def workout(request, workout_type):
             # Save Workout to the DB
             w = Workout()
             w.workout_date = form.cleaned_data.get('workout_date')
+            w.workout_type = workout_type
             w.routine = form.cleaned_data.get('Routine')
             w.description = form.cleaned_data.get('description')
             w.save()
@@ -221,7 +222,7 @@ def workout_running(request, workout_id):
             # then save them to DB
             print(form.cleaned_data)
             workout = Workout.objects.get(id=workout_id)
-            wb = WorkoutBiking()
+            wb = WorkoutRunning()
             wb.workout = workout
             wb.description = form.cleaned_data.get('description')
             wb.distance = form.cleaned_data.get('distance')
@@ -244,6 +245,31 @@ def workout_running(request, workout_id):
         template = loader.get_template('inshape/workout_running.html')
         context = { 'form': form }
         return HttpResponse(template.render(context, request))
+
+def workout_content(request, workout_id):
+    # Display content of the selected workout.  The template sorts out
+    # what to data fields to display based on the workout type
+    workout_instance = Workout.objects.get(id=workout_id)
+    if ( workout_instance.workout_type == 1):    # Type 1 is a strength workout
+        workout_detail = WorkoutStrength.objects.filter(workout__id=workout_id)
+    if ( workout_instance.workout_type == 2):    # Type 2 is a biking workout
+        workout_detail = WorkoutBiking.objects.filter(workout__id=workout_id)
+    if ( workout_instance.workout_type == 3):    # Type 3 is a climbing workout
+        workout_detail = WorkoutClimb.objects.filter(workout_id=workout_id)
+    if ( workout_instance.workout_type == 4):    # Type 4 is a running workout
+        workout_detail = WorkoutRunning.objects.filter(workout__id=workout_id)
+    if ( workout_detail ):
+        template = loader.get_template('inshape/workout_content.html')
+        context = {
+            'workout_id': workout_id,
+            'workout': workout_instance,
+            'workout_detail': workout_detail,
+        }
+        templateTest = template.render(context, request)
+        print(templateTest)
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponseRedirect('/inshape/invalid_entry/')    
 
 
 def done(request):

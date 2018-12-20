@@ -1,0 +1,53 @@
+<style>
+    body {
+        font-family: sans-serif;
+		margin: 20px;
+    }
+    h1  {
+        color: rgb(24, 24, 121);
+        font-style: italic;
+        font-size: 200%;
+        border: 2px solid red;
+		padding: 5px;
+		width: 200px;
+    }
+    h2 {
+        color: blue;
+        font-size: 125%;
+    }
+</style>
+<h1>inShape</h1>
+{% if workout %}
+    <h2>Workout Date: {{ workout.workout_date }} </h2>
+    <p>
+        Description: {{ workout.description }} <br />
+
+        {% if workout.workout_type == 1 %}  {# Strength #}
+            {% for detail in workout_detail %} <br />
+                Description: {{ detail.name }} <br />
+                Sets: {{ detail.sets }} <br />
+                Reps: {{ detail.reps }} <br />
+                Weight: {{ detail.weight }} /> <br />
+            {% endfor %}
+        {% elif workout.workout_type == 2  or workout.workout_type == 4 %}
+            {# 2 is biking and 4 is running #}
+            {% for detail in workout_detail %} <br />
+                Distance: {{ detail.distance }} <br />
+                Duration: {{ detail.duration }} <br />
+                Average Speed: {{ detail.avg_speed }} <br />
+                Time in Zone: {{ detail.time_in_zone }} <br />
+                Average Heart Rate: {{ detail.avg_hr }} <br />
+                Max Heart Rate: {{ detail.max_hr }} <br />
+                Notes: {{ detail.notes }} <br />
+            {% endfor %}
+        {% elif workout.workout_type == 3 %}  {# Climbing #}
+            {% for detail in workout_detail %} <br />
+                Route Type: {{ detail.route_type }} <br />
+                Rating: {{ detail.rating }} <br />
+                Notes: {{ detail.notes }} <br />
+            {% endfor %}
+        {% endif %}
+    </p>
+{% else %}
+    <p>Workout not found.</p>
+{% endif %}
