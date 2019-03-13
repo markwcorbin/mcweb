@@ -23,6 +23,7 @@
     <li><a href="{% url 'workout' 2 %}"> Biking Workout</a> </li>
     <li><a href="{% url 'workout' 3 %}"> Climbing Workout</a> </li>
     <li><a href="{% url 'workout' 4 %}"> Running Workout</a> </li>
+    <li><a href="{% url 'workout' 5 %}"> Cardio Workout</a> </li>
 </ul>
 <h2>Recent Workouts</h2>
 {% if workout_list %}
@@ -32,6 +33,7 @@
         {% endfor %}
     </ul>
 {% endif %}
+<ul><a href="{% url 'workout_search' %}"> Search Workouts by Date</a></ul>
 <h2>Routines</h2>
 {% if routine_list %}
     <ul>

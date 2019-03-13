@@ -8,7 +8,7 @@
             "name": "Django",
             "type": "python",
             "request": "launch",
-            "stopOnEntry": true,
+            "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
             "program": "C:/Users/Mark/Documents/GitHub/mcweb/manage.py",
             "cwd": "${workspaceRoot}",
@@ -18,11 +18,7 @@
                 "runserver",
                 "--noreload"
             ],
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
+            "django": true
         },
         {
             "name": "GetIP",
@@ -34,11 +30,6 @@
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python",
@@ -50,20 +41,12 @@
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python: Attach",
             "type": "python",
             "request": "attach",
-            "localRoot": "${workspaceRoot}",
-            "remoteRoot": "${workspaceRoot}",
             "port": 3000,
-            "secret": "my_secret",
             "host": "localhost"
         },
         {
@@ -77,10 +60,6 @@
             "console": "integratedTerminal",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit"
-            ]
         },
         {
             "name": "Python: Terminal (external)",
@@ -93,10 +72,6 @@
             "console": "externalTerminal",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit"
-            ]
         },
         {
             "name": "Python: Django",
@@ -113,12 +88,6 @@
             ],
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput",
-                "DjangoDebugging"
-            ]
         },
         {
             "name": "Python: Flask (0.11.x or later)",
@@ -137,11 +106,6 @@
                 "--no-reload"
             ],
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python: Flask (0.10.x or earlier)",
@@ -154,11 +118,6 @@
             "args": [],
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python: PySpark",
@@ -178,11 +137,6 @@
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python: Module",
@@ -194,11 +148,6 @@
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         },
         {
             "name": "Python: Pyramid",
@@ -212,12 +161,6 @@
             "args": [
                 "${workspaceRoot}/development.ini"
             ],
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput",
-                "Pyramid"
-            ]
         },
         {
             "name": "Python: Watson",
@@ -234,11 +177,6 @@
             ],
             "env": {},
             "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
-            ]
         }
     ]
 }

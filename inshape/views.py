@@ -3,12 +3,14 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning, WorkoutCardio
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
 from .forms import WorkoutBikingForm
 from .forms import WorkoutClimbForm
 from .forms import WorkoutRunningForm
+from .forms import WorkoutSearchForm
+from .forms import WorkoutCardioForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -86,6 +88,10 @@ def workout(request, workout_type):
                 workout_running_url = '/inshape/workout_running/' \
                     + str(w.id) + '/'
                 return HttpResponseRedirect(workout_running_url)
+            elif (workout_type == 5):
+                workout_cardio_url = '/inshape/workout_cardio/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_cardio_url)
             else:
                 # Invalid workout type
                 # ToDo: better error reporting
@@ -246,18 +252,47 @@ def workout_running(request, workout_id):
         context = { 'form': form }
         return HttpResponse(template.render(context, request))
 
+
+def workout_cardio(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutCardioForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wb = WorkoutCardio()
+            wb.workout = workout
+            wb.description = form.cleaned_data.get('description')
+            wb.distance = form.cleaned_data.get('distance')
+            wb.duration = form.cleaned_data.get('duration')
+            wb.avg_speed = form.cleaned_data.get('avg_speed')
+            wb.time_in_zone = form.cleaned_data.get('time_in_zone')
+            wb.avg_hr = form.cleaned_data.get('avg_hr')
+            wb.max_hr = form.cleaned_data.get('max_hr')
+            wb.notes = form.cleaned_data.get('notes')
+            wb.save()
+            # Go back to home page
+            home_url = ('/inshape/')
+            return HttpResponseRedirect(home_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutCardioForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_cardio.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
+
+
+
 def workout_content(request, workout_id):
     # Display content of the selected workout.  The template sorts out
-    # what to data fields to display based on the workout type
+    # what data fields to display based on the workout type
     workout_instance = Workout.objects.get(id=workout_id)
-    if ( workout_instance.workout_type == 1):    # Type 1 is a strength workout
-        workout_detail = WorkoutStrength.objects.filter(workout__id=workout_id)
-    if ( workout_instance.workout_type == 2):    # Type 2 is a biking workout
-        workout_detail = WorkoutBiking.objects.filter(workout__id=workout_id)
-    if ( workout_instance.workout_type == 3):    # Type 3 is a climbing workout
-        workout_detail = WorkoutClimb.objects.filter(workout_id=workout_id)
-    if ( workout_instance.workout_type == 4):    # Type 4 is a running workout
-        workout_detail = WorkoutRunning.objects.filter(workout__id=workout_id)
+    workout_detail = get_workout_content_detail(workout_instance)
     if ( workout_detail ):
         template = loader.get_template('inshape/workout_content.html')
         context = {
@@ -265,12 +300,58 @@ def workout_content(request, workout_id):
             'workout': workout_instance,
             'workout_detail': workout_detail,
         }
-        templateTest = template.render(context, request)
-        print(templateTest)
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponseRedirect('/inshape/invalid_entry/')    
 
+def workout_search(request):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutSearchForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            # Prepare query date parameters for start and end
+            start_year = (form.cleaned_data.get('start_date')).year
+            start_month = (form.cleaned_data.get('start_date')).month
+            start_day = (form.cleaned_data.get('start_date')).day
+            query_start_date = (str(start_year) + '-' + str(start_month) + '-' 
+                                + str(start_day))
+            end_year = (form.cleaned_data.get('end_date')).year
+            end_month = (form.cleaned_data.get('end_date')).month
+            end_day = (form.cleaned_data.get('end_date')).day
+            query_end_date = (str(end_year) + '-' + str(end_month) + '-' 
+                                + str(end_day))
+
+            # Get workouts for specified date range
+            w = (Workout.objects.filter(workout_date__gte=query_start_date)
+                                        .filter(workout_date__lte=query_end_date))            
+            
+            back_url = '/inshape/'
+            return HttpResponseRedirect(back_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutSearchForm()
+        template = loader.get_template('inshape/workout_search.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
+
+def get_workout_content_detail(workout_instance):
+    # Get object containing details for the workout based on the type of workout
+    if ( workout_instance.workout_type == 1):    # Type 1 is a strength workout
+        workout_detail = WorkoutStrength.objects.filter(workout__id=workout_instance.id)
+    if ( workout_instance.workout_type == 2):    # Type 2 is a biking workout
+        workout_detail = WorkoutBiking.objects.filter(workout__id=workout_instance.id)
+    if ( workout_instance.workout_type == 3):    # Type 3 is a climbing workout
+        workout_detail = WorkoutClimb.objects.filter(workout_id=workout_instance.id)
+    if ( workout_instance.workout_type == 4):    # Type 4 is a running workout
+        workout_detail = WorkoutRunning.objects.filter(workout__id=workout_instance.id)
+
+    return(workout_detail)
 
 def done(request):
     return render(request, 'inshape/done.html')

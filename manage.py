@@ -3,7 +3,7 @@ import os
 import sys
 from django.conf import settings
 sys.path.insert(0, 'manage_IP')
-from get_mcweb_IP import *
+from manage_IP.get_mcweb_IP import *
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mcweb.settings")
