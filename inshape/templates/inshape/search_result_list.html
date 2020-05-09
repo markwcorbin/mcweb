@@ -1,0 +1,40 @@
+<style>
+    body {
+        font-family: sans-serif;
+		margin: 20px;
+    }
+    h1  {
+        color: rgb(24, 24, 121);
+        font-style: italic;
+        font-size: 200%;
+        border: 2px solid red;
+		padding: 5px;
+		width: 200px;
+    }
+    h2 {
+        color: blue;
+        font-size: 125%;
+    }
+</style>
+<h1>inShape</h1>
+<h2>Search results</h2>
+
+{% if workout_list %}
+    <ul>
+        {% for workout in workout_list %}
+            <li><a href="{% url 'workout_content' workout.id %}"> {{ workout.workout_date }} {{workout.description }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<ul><a href="{% url 'workout_search' %}"> Search Workouts by Date</a></ul>
+<h2>Routines</h2>
+{% if routine_list %}
+    <ul>
+    {% for routine in routine_list %}
+        <li><a href="{% url 'routine' routine.id %}">{{ routine.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No routines available.</p>
+{% endif %}
+

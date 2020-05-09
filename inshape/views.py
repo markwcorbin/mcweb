@@ -327,9 +327,14 @@ def workout_search(request):
             # Get workouts for specified date range
             w = (Workout.objects.filter(workout_date__gte=query_start_date)
                                         .filter(workout_date__lte=query_end_date))            
+            template = loader.get_template('inshape/search_result_list.html')
+            context = {
+                'workout_list': w,
+            }
+            return HttpResponse(template.render(context, request))
             
-            back_url = '/inshape/'
-            return HttpResponseRedirect(back_url)
+            #back_url = '/inshape/'
+            #return HttpResponseRedirect(back_url)
         else:
             return HttpResponseRedirect('/inshape/invalid_entry/')
 
