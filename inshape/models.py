@@ -75,9 +75,9 @@ class WorkoutRunning(models.Model):
 class WorkoutCardio(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     description = models.CharField(max_length=50, blank=True, null=True)
-    distance = models.DecimalField(decimal_places=1, max_digits=4)
+    distance = models.DecimalField(decimal_places=1, max_digits=4, blank=True, null=True)
     duration = models.TimeField()
-    avg_speed = models.DecimalField(decimal_places=1, max_digits=3)
+    avg_speed = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     time_in_zone = models.TimeField(blank=True, null=True)
     avg_hr = models.IntegerField(blank=True, null=True)
     max_hr = models.IntegerField(blank=True, null=True)

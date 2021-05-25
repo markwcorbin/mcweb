@@ -355,6 +355,8 @@ def get_workout_content_detail(workout_instance):
         workout_detail = WorkoutClimb.objects.filter(workout_id=workout_instance.id)
     if ( workout_instance.workout_type == 4):    # Type 4 is a running workout
         workout_detail = WorkoutRunning.objects.filter(workout__id=workout_instance.id)
+    if ( workout_instance.workout_type == 5):    # Type 5 is a cardio workout
+        workout_detail = WorkoutCardio.objects.filter(workout__id=workout_instance.id)
 
     return(workout_detail)
 
