@@ -77,6 +77,8 @@ class WorkoutCardio(models.Model):
     description = models.CharField(max_length=50, blank=True, null=True)
     distance = models.DecimalField(decimal_places=1, max_digits=4, blank=True, null=True)
     duration = models.TimeField()
+    avg_watts = models.IntegerField(blank=True, null=True)
+    max_watts = models.IntegerField(blank=True, null=True)
     avg_speed = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     time_in_zone = models.TimeField(blank=True, null=True)
     avg_hr = models.IntegerField(blank=True, null=True)

@@ -267,6 +267,8 @@ def workout_cardio(request, workout_id):
             wb.description = form.cleaned_data.get('description')
             wb.distance = form.cleaned_data.get('distance')
             wb.duration = form.cleaned_data.get('duration')
+            wb.avg_watts = form.cleaned_data.get('avg_watts')
+            wb.max_watts = form.cleaned_data.get('max_watts')
             wb.avg_speed = form.cleaned_data.get('avg_speed')
             wb.time_in_zone = form.cleaned_data.get('time_in_zone')
             wb.avg_hr = form.cleaned_data.get('avg_hr')

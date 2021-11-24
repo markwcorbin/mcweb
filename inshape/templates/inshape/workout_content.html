@@ -29,8 +29,8 @@
                 Reps: {{ detail.reps }} <br />
                 Weight: {{ detail.weight }} <br />
             {% endfor %}
-        {% elif workout.workout_type == 2  or workout.workout_type == 4 or workout.workout_type == 5 %}
-            {# 2 is biking, 4 is running, and 5 is cardio #}
+        {% elif workout.workout_type == 2  or workout.workout_type == 4 %}
+            {# 2 is biking, 4 is running #}
             {% for detail in workout_detail %} <br />
                 Distance: {{ detail.distance }} <br />
                 Duration: {{ detail.duration|time:"H:i" }} <br />
@@ -44,6 +44,18 @@
             {% for detail in workout_detail %} <br />
                 Route Type: {{ detail.route_type }} <br />
                 Rating: {{ detail.rating }} <br />
+                Notes: {{ detail.notes }} <br />
+            {% endfor %}
+        {% elif workout.workout_type == 5 %}  {# Cardio #}
+            {% for detail in workout_detail %} <br />
+                Distance: {{ detail.distance }} <br />
+                Duration: {{ detail.duration|time:"H:i" }} <br />
+                Average Watts: {{ detail.avg_watts }} <br />
+                Max Watts: {{ detail.max_watts }} <br />
+                Average Speed: {{ detail.avg_speed }} <br />
+                Time in Zone: {{ detail.time_in_zone|time:"H:i" }} <br />
+                Average Heart Rate: {{ detail.avg_hr }} <br />
+                Max Heart Rate: {{ detail.max_hr }} <br />
                 Notes: {{ detail.notes }} <br />
             {% endfor %}
         {% endif %}
