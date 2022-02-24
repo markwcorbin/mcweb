@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning, WorkoutCardio
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning, WorkoutCardio, WorkoutStairs
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
 from .forms import WorkoutBikingForm
@@ -11,6 +11,7 @@ from .forms import WorkoutClimbForm
 from .forms import WorkoutRunningForm
 from .forms import WorkoutSearchForm
 from .forms import WorkoutCardioForm
+from .forms import WorkoutStairsForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -92,6 +93,10 @@ def workout(request, workout_type):
                 workout_cardio_url = '/inshape/workout_cardio/' \
                     + str(w.id) + '/'
                 return HttpResponseRedirect(workout_cardio_url)
+            elif (workout_type == 6):
+                workout_stairs_url = '/inshape/workout_stairs/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_stairs_url)
             else:
                 # Invalid workout type
                 # ToDo: better error reporting
@@ -163,6 +168,8 @@ def workout_biking(request, workout_id):
             wb.time_in_zone = form.cleaned_data.get('time_in_zone')
             wb.avg_hr = form.cleaned_data.get('avg_hr')
             wb.max_hr = form.cleaned_data.get('max_hr')
+            wb.avg_watts = form.cleaned_data.get('avg_watts')
+            wb.max_watts = form.cleaned_data.get('max_watts')
             wb.notes = form.cleaned_data.get('notes')
             wb.save()
             # Go back to home page
@@ -288,6 +295,39 @@ def workout_cardio(request, workout_id):
         context = { 'form': form }
         return HttpResponse(template.render(context, request))
 
+def workout_stairs(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutStairsForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wb = WorkoutStairs()
+            wb.workout = workout
+            wb.description = form.cleaned_data.get('description')
+            wb.floors = form.cleaned_data.get('floors')
+            wb.altitude_gain = form.cleaned_data.get('altitude_gain')
+            wb.duration = form.cleaned_data.get('duration')
+            wb.avg_speed = form.cleaned_data.get('avg_speed')
+            wb.time_in_zone = form.cleaned_data.get('time_in_zone')
+            wb.avg_hr = form.cleaned_data.get('avg_hr')
+            wb.max_hr = form.cleaned_data.get('max_hr')
+            wb.notes = form.cleaned_data.get('notes')
+            wb.save()
+            # Go back to home page
+            home_url = ('/inshape/')
+            return HttpResponseRedirect(home_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutStairsForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_stairs.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
 
 
 def workout_content(request, workout_id):
@@ -359,6 +399,8 @@ def get_workout_content_detail(workout_instance):
         workout_detail = WorkoutRunning.objects.filter(workout__id=workout_instance.id)
     if ( workout_instance.workout_type == 5):    # Type 5 is a cardio workout
         workout_detail = WorkoutCardio.objects.filter(workout__id=workout_instance.id)
+    if ( workout_instance.workout_type == 6):    # Type 5 is a stairs workout
+        workout_detail = WorkoutStairs.objects.filter(workout__id=workout_instance.id)
 
     return(workout_detail)
 

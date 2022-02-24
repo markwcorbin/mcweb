@@ -50,6 +50,8 @@ class WorkoutBiking(models.Model):
     time_in_zone = models.TimeField(blank=True, null=True)
     avg_hr = models.IntegerField(blank=True, null=True)
     max_hr = models.IntegerField(blank=True, null=True)
+    avg_watts = models.IntegerField(blank=True, null=True)
+    max_watts = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length=50, blank=True, null=True)
 
 class WorkoutClimb(models.Model):
@@ -85,9 +87,18 @@ class WorkoutCardio(models.Model):
     max_hr = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length=50, blank=True, null=True)
 
-
     def __str__(self):
         return self.description
         
-
+class WorkoutStairs(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    description = models.CharField(max_length=50, blank=True, null=True)
+    duration = models.TimeField()
+    floors = models.IntegerField(blank=True, null=True)
+    altitude_gain = models.IntegerField(blank=True, null=True)
+    avg_speed = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
+    time_in_zone = models.TimeField(blank=True, null=True)
+    avg_hr = models.IntegerField(blank=True, null=True)
+    max_hr = models.IntegerField(blank=True, null=True)
+    notes = models.CharField(max_length=50, blank=True, null=True)
 

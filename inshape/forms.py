@@ -33,6 +33,8 @@ class WorkoutBikingForm(forms.Form):
     time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone (hh:mm)', required=False)
     avg_hr = forms.IntegerField(label='Avg Heart Rate', required=False)
     max_hr = forms.IntegerField(label='Max Heart Rate', required=False)
+    avg_watts = forms.IntegerField(label='Avg Watts', required=False)
+    max_watts = forms.IntegerField(label='Max Watts', required=False)
     notes = forms.CharField(label='Notes', required=False )
 
 class WorkoutClimbForm(forms.Form):
@@ -60,6 +62,18 @@ class WorkoutCardioForm(forms.Form):
     avg_watts = forms.IntegerField(label='Avg Watts', required=False)
     max_watts = forms.IntegerField(label='Max Watts', required=False)
     avg_speed = forms.DecimalField(label='Avg Speed (00.0)', max_digits=3, required=False)
+    time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone (hh:mm)', required=False)
+    avg_hr = forms.IntegerField(label='Avg Heart Rate', required=False)
+    max_hr = forms.IntegerField(label='Max Heart Rate', required=False)
+    notes = forms.CharField(label='Notes', required=False )
+
+class WorkoutStairsForm(forms.Form):
+    workout = forms.IntegerField(widget=forms.HiddenInput)
+    description = forms.CharField(label='Description')
+    floors = forms.IntegerField(label='Floors', required=False)
+    altitude_gained = forms.IntegerField(label='Altitude Gained', required=False)
+    duration = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Duration (hh:mm)')
+    avg_speed = forms.DecimalField(label='Avg Flights/Min (00.0)', max_digits=3, required=False)
     time_in_zone = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='In Heart Rate Zone (hh:mm)', required=False)
     avg_hr = forms.IntegerField(label='Avg Heart Rate', required=False)
     max_hr = forms.IntegerField(label='Max Heart Rate', required=False)
