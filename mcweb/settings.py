@@ -83,18 +83,13 @@ WSGI_APPLICATION = 'mcweb.wsgi.application'
 
 DATABASES = {
     'default' : {
-        'ENGINE': 'sql_server.pyodbc',
+        'ENGINE': 'mssql',
         'HOST': 'localhost\SQLEXPRESS',
-        'PORT': '1433',
         'NAME': 'InShape',
         'USER': '',
         'PASSWORD': '',
-        'AUTOCOMMIT': True,
         'OPTIONS': {
             'driver': 'SQL Server Native Client 11.0',
-            'dsn': 'InShape',
-            'unicode_results': True,
-#            'host_is_server': True,
         },
     }
 }
@@ -136,3 +131,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
