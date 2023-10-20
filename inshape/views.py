@@ -368,7 +368,7 @@ def workout_search(request):
 
             # Get workouts for specified date range
             w = (Workout.objects.filter(workout_date__gte=query_start_date)
-                                        .filter(workout_date__lte=query_end_date))            
+                                        .filter(workout_date__lte=query_end_date).order_by('workout_date'))           
             template = loader.get_template('inshape/search_result_list.html')
             context = {
                 'workout_list': w,
