@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import *
-from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning, WorkoutCardio, WorkoutStairs
+from .models import Workout, Routine, Exercise, WorkoutStrength, WorkoutBiking, WorkoutClimb, WorkoutRunning, WorkoutCardio, WorkoutStairs, WorkoutSwimming
 from .forms import WorkoutForm
 from .forms import WorkoutStrengthForm
 from .forms import WorkoutBikingForm
@@ -12,6 +12,7 @@ from .forms import WorkoutRunningForm
 from .forms import WorkoutSearchForm
 from .forms import WorkoutCardioForm
 from .forms import WorkoutStairsForm
+from .forms import WorkoutSwimmingForm
 
 def index(request):
     routine_list = Routine.objects.all()
@@ -97,6 +98,10 @@ def workout(request, workout_type):
                 workout_stairs_url = '/inshape/workout_stairs/' \
                     + str(w.id) + '/'
                 return HttpResponseRedirect(workout_stairs_url)
+            elif (workout_type == 7):
+                workout_swimming_url = '/inshape/workout_swimming/' \
+                    + str(w.id) + '/'
+                return HttpResponseRedirect(workout_swimming_url)
             else:
                 # Invalid workout type
                 # ToDo: better error reporting
@@ -186,7 +191,7 @@ def workout_biking(request, workout_id):
         return HttpResponse(template.render(context, request))
 
 def workout_climbing(request, workout_id):
-    # Enter results of a climbing sessin
+    # Enter results of a climbing session
     workout = Workout.objects.get(id=workout_id)
     climbs = WorkoutClimb.objects.filter(workout=workout_id)
     template = loader.get_template('inshape/workout_climbing.html')
@@ -330,6 +335,35 @@ def workout_stairs(request, workout_id):
         return HttpResponse(template.render(context, request))
 
 
+def workout_swimming(request, workout_id):
+    # If request is a POST, then process submitted data
+    if request.method == 'POST':
+        form = WorkoutSwimmingForm(request.POST)
+        if form.is_valid():
+            # Need to extract hidden Routine ID, Exercise ID and other fields,
+            # then save them to DB
+            print(form.cleaned_data)
+            workout = Workout.objects.get(id=workout_id)
+            wb = WorkoutSwimming()
+            wb.workout = workout
+            wb.description = form.cleaned_data.get('description')
+            wb.duration = form.cleaned_data.get('duration')
+            wb.distance = form.cleaned_data.get('distance')
+            wb.notes = form.cleaned_data.get('notes')
+            wb.save()
+            # Go back to home page
+            home_url = ('/inshape/')
+            return HttpResponseRedirect(home_url)
+        else:
+            return HttpResponseRedirect('/inshape/invalid_entry/')
+        
+    # If a GET or any other method, create a blank form
+    else:
+        form = WorkoutSwimmingForm(initial={'workout': workout_id})
+        template = loader.get_template('inshape/workout_swimming.html')
+        context = { 'form': form }
+        return HttpResponse(template.render(context, request))
+
 def workout_content(request, workout_id):
     # Display content of the selected workout.  The template sorts out
     # what data fields to display based on the workout type
@@ -399,8 +433,10 @@ def get_workout_content_detail(workout_instance):
         workout_detail = WorkoutRunning.objects.filter(workout__id=workout_instance.id)
     if ( workout_instance.workout_type == 5):    # Type 5 is a cardio workout
         workout_detail = WorkoutCardio.objects.filter(workout__id=workout_instance.id)
-    if ( workout_instance.workout_type == 6):    # Type 5 is a stairs workout
+    if ( workout_instance.workout_type == 6):    # Type 6 is a stairs workout
         workout_detail = WorkoutStairs.objects.filter(workout__id=workout_instance.id)
+    if ( workout_instance.workout_type == 7):    # Type 7 is a swimming workout
+        workout_detail = WorkoutSwimming.objects.filter(workout__id=workout_instance.id)
 
     return(workout_detail)
 

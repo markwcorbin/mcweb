@@ -18,6 +18,7 @@ urlpatterns = [
     path('workout_running/<int:workout_id>/', views.workout_running, name='workout_running'),
     path('workout_cardio/<int:workout_id>/', views.workout_cardio, name='workout_cardio'),
     path('workout_stairs/<int:workout_id>/', views.workout_stairs, name='workout_stairs'),
+    path('workout_swimming/<int:workout_id>/', views.workout_swimming, name='workout_swimming'),
     path('workout_content/<int:workout_id>/', views.workout_content, name='workout_content'),
     path('workout_search/', views.workout_search, name='workout_search'),
     path('invalid_entry/', views.invalid_entry, name='invalid_entry'),

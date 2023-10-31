@@ -102,3 +102,9 @@ class WorkoutStairs(models.Model):
     max_hr = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length=50, blank=True, null=True)
 
+class WorkoutSwimming(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    description = models.CharField(max_length=50, blank=True, null=True)
+    duration = models.TimeField()
+    distance = models.IntegerField(blank=True, null=True)
+    notes = models.CharField(max_length=50, blank=True, null=True)

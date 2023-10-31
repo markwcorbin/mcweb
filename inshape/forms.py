@@ -79,6 +79,13 @@ class WorkoutStairsForm(forms.Form):
     max_hr = forms.IntegerField(label='Max Heart Rate', required=False)
     notes = forms.CharField(label='Notes', required=False )
 
+class WorkoutSwimmingForm(forms.Form):
+    workout = forms.IntegerField(widget=forms.HiddenInput)
+    description = forms.CharField(label='Description')
+    duration = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Duration (hh:mm)')
+    distance = forms.IntegerField(label='Distance (yards)', required=False)
+    notes = forms.CharField(label='Notes', required=False)
+
 class WorkoutSearchForm(forms.Form):
     start_date = forms.DateField(label='Start Date')
     end_date = forms.DateField(label='End Date')

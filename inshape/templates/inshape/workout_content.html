@@ -71,6 +71,13 @@
                 Max Heart Rate: {{ detail.max_hr }} <br />
                 Notes: {{ detail.notes }} <br />
             {% endfor %}
+        {% elif workout.workout_type == 7 %}  
+            {# 7 is Swimming #}
+            {% for detail in workout_detail %} <br />
+                Duration: {{ detail.duration|time:"H:i" }} <br />
+                Distance: {{ detail.distance }} <br />
+                Notes: {{ detail.notes }} <br />
+            {% endfor %}
         {% endif %}
     </p>
 {% else %}
